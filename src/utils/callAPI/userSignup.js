@@ -7,21 +7,25 @@ const userSignup = async (userData) => {
     firstName: "Tony",
     lastName: "Stark",
   };
-  const response = await fetch(URL_SINGUP, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: userData.email,
-      password: userData.password,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-    }),
-  });
 
-  const data = await response.json();
-  console.log(data);
+  try {
+    const response = await fetch(URL_SINGUP, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: userData.email,
+        password: userData.password,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default userSignup;
