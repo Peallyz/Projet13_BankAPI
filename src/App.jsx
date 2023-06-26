@@ -4,9 +4,11 @@ import store from "./utils/store/store";
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router />
-    </Provider>
+    <>
+      <Provider store={store}>
+        <Router />
+      </Provider>
+    </>
   );
 }
 
