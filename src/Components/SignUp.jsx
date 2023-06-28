@@ -2,7 +2,8 @@ import { PropTypes } from "prop-types";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import signUp from "../utils/asyncThunk/signUp";
+import signUp from "../utils/asyncActions/signUp";
+import { useState } from "react";
 
 const SignUp = ({ setIsSignInModal }) => {
   const usernameRef = useRef(null);
@@ -12,13 +13,15 @@ const SignUp = ({ setIsSignInModal }) => {
 
   const responseStatus = useSelector((state) => state.user.signUpStatus);
 
+  const [isError, setIsError] = useState(false);
+
   useEffect(() => {
     if (responseStatus === 200) {
       setIsSignInModal(true);
     }
 
     if (responseStatus && responseStatus !== 200) {
-      alert("Invalid form");
+      alert("An error occured. Please try again.");
     }
   }, [responseStatus]);
 
@@ -26,12 +29,22 @@ const SignUp = ({ setIsSignInModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      signUp({
-        email: usernameRef.current.value,
-        password: passwordRef.current.value,
-      })
-    );
+    if (
+      usernameRef.current.value ||
+      passwordRef.current.value ||
+      firstNameRef.current.value ||
+      lastNameRef.current.value
+    ) {
+      setIsError(false);
+      dispatch(
+        signUp({
+          email: usernameRef.current.value,
+          password: passwordRef.current.value,
+        })
+      );
+    } else {
+      setIsError(true);
+    }
   };
   return (
     <section className="sign-in-content">
@@ -54,7 +67,11 @@ const SignUp = ({ setIsSignInModal }) => {
           <label htmlFor="lastname">Lastname</label>
           <input type="lastname" id="lastname" ref={lastNameRef} required />
         </div>
-
+        {isError ? (
+          <p className="errorMessage">Fields are not correctly filled</p>
+        ) : (
+          ""
+        )}
         <button className="sign-in-button" onClick={handleSubmit}>
           Sign Up
         </button>
