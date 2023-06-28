@@ -11,8 +11,8 @@ const updateProfile = createAsyncThunk(
         Authorization: `Bearer ${payload.token}`,
       },
       body: JSON.stringify({
-        firstName: payload.firstName,
-        lastName: payload.lastName,
+        firstName: payload.firstname,
+        lastName: payload.lastname,
       }),
     });
 
