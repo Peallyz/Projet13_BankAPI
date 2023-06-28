@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import getProfile from "../utils/asyncActions/getProfile";
 import Footer from "../Components/Footer";
 
-const Dashboard = () => {
+const Account = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -41,4 +41,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Account;

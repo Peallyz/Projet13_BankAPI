@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./Pages/Home";
-import Dashboard from "./Pages/Dashboard";
+import Account from "./Pages/Account";
 import Login from "./Pages/Login";
 import Error from "./Pages/Error";
 
@@ -10,7 +10,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/account" element={<Dashboard />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/error" element={<Error />} />
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
