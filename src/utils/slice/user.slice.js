@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import login from "../asyncActions/login";
 import signUp from "../asyncActions/signUp";
 import getProfile from "../asyncActions/getProfile";
+import updateProfile from "../asyncActions/updateProfile";
 
 export const userSlice = createSlice({
   name: "user",
@@ -13,6 +14,7 @@ export const userSlice = createSlice({
     signInStatus: null,
     signUpStatus: null,
     getProfileStatus: null,
+    updateProfileStatus: null,
   },
   reducers: {
     signOut: (state) => {
@@ -23,6 +25,7 @@ export const userSlice = createSlice({
       state.signInStatus = null;
       state.signUpStatus = null;
       state.getProfileStatus = null;
+      state.updateProfileStatus = null;
     },
     resetSignUpStatus: (state) => {
       state.signUpStatus = null;
@@ -56,6 +59,15 @@ export const userSlice = createSlice({
       .addCase(getProfile.rejected, (state) => {
         state.username = null;
         state.getProfile = 500;
+      })
+      .addCase(updateProfile.fulfilled, (state, { payload }) => {
+        state.firstname = payload?.body?.firstName;
+        state.lastname = payload?.body?.lastName;
+        state.updateProfileStatus = payload?.data?.status;
+      })
+      .addCase(updateProfile.rejected, (state) => {
+        state.username = null;
+        state.updateProfile = 500;
       });
   },
 });
