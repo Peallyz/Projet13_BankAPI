@@ -1,0 +1,332 @@
+swagger: '2.0'
+info:
+  title: ArgentBank API documentation
+  description: Contains API endpoints for transaction feature 
+  version: '1.1.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v2
+schemes:
+  - http
+
+paths:
+  /user/profile/account:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Account Details API
+      description: User balance API 
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User balance retrieved successully
+          schema:
+            $ref: '#/definitions/AccountGet'
+        '400':
+          description: Invalid Token
+        '500':
+          description: Internal Server Error
+  /user/profile/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transactions API
+      description: Retrieve last month user transactions API
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transactions retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionsGet'
+        '400':
+          description: Invalid Token
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Create Transaction API
+      description: Create transaction API
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Add user transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionPut'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction post successully
+          schema:
+            $ref: '#/definitions/TransactionGet'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  
+  
+  /user/profile/transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transaction API
+      description: Specific user transaction API
+      parameters:
+        - in: path
+          name: transactionId
+          type: integer
+          required: true
+          description:  TransactionID
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionGet'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Update Transaction API
+      description:  Update details' transaction API
+      parameters:
+        - in: path
+          name: transactionId
+          type: integer
+          required: true
+          description: TransactionID to update
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Update user transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionUpdate'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction updated successully
+          schema:
+            $ref: '#/definitions/TransactionGet'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Delete Transaction API
+      description: Delete transaction's details API
+      parameters:
+        - in: path
+          name: transactionId
+          type: integer
+          required: true
+          description: TransactionID to delete details
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Add user transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDelete'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction details delete successully
+          schema:
+            $ref: '#/definitions/TransactionGet'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+          
+          
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  AccountGet:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          userID:
+            type: string
+          balanceAmount:
+              type: number
+          overdraftAmount:
+              type: number
+  TransactionsGet:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            date:
+              type: string
+              format: date
+            description:
+              type: string
+            amount:
+              type: integer
+            oldBalanceAccount:
+              type: integer
+            newBalanceAccount:
+              type: integer
+            type:
+              type: string
+            category:
+              type: string
+            notes:
+              type: string
+  TransactionGet:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: integer
+          date:
+            type: string
+            format: date
+          description:
+            type: string
+          amount:
+            type: integer
+          oldBalanceAccount:
+            type: integer
+          newBalanceAccount:
+            type: integer
+          type:
+            type: string
+          category:
+            type: string
+          notes:
+            type: string
+  TransactionPut:
+    type: object
+    properties:
+      status:
+        type: integer   
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          description:
+            type: string
+          amount:
+            type: integer
+          balance:
+            type: integer
+          type:
+            type: string
+          category:
+            type: string
+          notes:
+            type: string
+  TransactionUpdate:
+    type: object
+    properties:
+      status:
+        type: integer   
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          type:
+            type: string
+          category:
+            type: string
+          notes:
+            type: string
+  TransactionDelete:
+    type: object
+    properties:
+      status:
+        type: integer   
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          type:
+            type: boolean
+          category:
+            type: boolean
+          notes:
+            type: boolean
