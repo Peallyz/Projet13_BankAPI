@@ -34,9 +34,9 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
-        state.username = payload.payload.email;
+        state.username = payload?.payload?.email;
         state.token = payload?.data?.body?.token;
-        state.signInStatus = payload.data.status;
+        state.signInStatus = payload?.data?.status;
       })
       .addCase(login.rejected, (state) => {
         state.username = null;
