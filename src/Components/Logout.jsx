@@ -8,9 +8,8 @@ const Logout = () => {
   const firstname = useSelector((state) => state.user.firstname);
   const username = useSelector((state) => state.user.username);
 
-  const handleSignOut = () => {
-    dispatch(signOut());
-  };
+  const handleSignOut = () => dispatch(signOut());
+
   return (
     <div>
       <NavLink className="main-nav-item" to="/account">
