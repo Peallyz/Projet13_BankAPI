@@ -1,18 +1,15 @@
 import { PropTypes } from "prop-types";
-import { useEffect } from "react";
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import signUp from "../utils/asyncActions/signUp";
-import { useState } from "react";
 
 const SignUp = ({ setIsSignInModal }) => {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const firstNameRef = useRef(null);
-  const lastNameRef = useRef(null);
-
   const responseStatus = useSelector((state) => state.user.signUpStatus);
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -21,7 +18,7 @@ const SignUp = ({ setIsSignInModal }) => {
     }
 
     if (responseStatus && responseStatus !== 200) {
-      alert("An error occured. Please try again.");
+      alert("An error occurred. Please try again.");
     }
   }, [responseStatus]);
 
@@ -29,23 +26,23 @@ const SignUp = ({ setIsSignInModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      usernameRef.current.value ||
-      passwordRef.current.value ||
-      firstNameRef.current.value ||
-      lastNameRef.current.value
-    ) {
+
+    if (username && password && firstName && lastName) {
       setIsError(false);
+
       dispatch(
         signUp({
-          email: usernameRef.current.value,
-          password: passwordRef.current.value,
+          email: username,
+          password,
+          firstName,
+          lastName,
         })
       );
     } else {
       setIsError(true);
     }
   };
+
   return (
     <section className="sign-in-content">
       <i className="fa fa-user-circle sign-in-icon"></i>
@@ -53,28 +50,51 @@ const SignUp = ({ setIsSignInModal }) => {
       <form>
         <div className="input-wrapper">
           <label htmlFor="username">Username</label>
-          <input type="text" id="username" ref={usernameRef} required />
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" ref={passwordRef} required />
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         <div className="input-wrapper">
           <label htmlFor="firstname">Firstname</label>
-          <input type="firstname" id="firstname" ref={firstNameRef} required />
+          <input
+            type="text"
+            id="firstname"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
         </div>
         <div className="input-wrapper">
           <label htmlFor="lastname">Lastname</label>
-          <input type="lastname" id="lastname" ref={lastNameRef} required />
+          <input
+            type="text"
+            id="lastname"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
         </div>
-        {isError ? (
+        {isError && (
           <p className="errorMessage">Fields are not correctly filled</p>
-        ) : (
-          ""
         )}
         <button className="sign-in-button" onClick={handleSubmit}>
           Sign Up
         </button>
+
         <button
           className="sign-in-button"
           onClick={(e) => {

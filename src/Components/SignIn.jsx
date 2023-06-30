@@ -1,53 +1,46 @@
 import { PropTypes } from "prop-types";
-import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import login from "../utils/asyncActions/login";
-import { useState } from "react";
 
 const SignIn = ({ setIsSignInModal }) => {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const rememberMeRef = useRef(null);
-
   const responseStatus = useSelector((state) => state.user.signInStatus);
-  const username = useSelector((state) => state.user.username);
-  const localStorageEmail = window.localStorage.getItem("email");
+  const usernameFromStore = useSelector((state) => state.user.username);
 
+  const localStorageUsername = window.localStorage.getItem("username");
+
+  const [username, setUsername] = useState(
+    usernameFromStore || localStorageUsername
+      ? usernameFromStore || localStorageUsername
+      : ""
+  );
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    if (rememberMeRef.current.checked && responseStatus === 200) {
-      window.localStorage.setItem("email", usernameRef.current.value);
-    }
-
-    if (responseStatus === 200) {
-      setIsError(false);
-      navigate("/account");
-    }
-
     if (responseStatus && responseStatus !== 200) {
       setIsError(true);
     }
-  }, [responseStatus, navigate]);
+  }, [responseStatus]);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!rememberMeRef.current.checked) {
-      window.localStorage.removeItem("email");
+    if (rememberMe && username && password) {
+      window.localStorage.setItem("username", username);
     }
 
-    rememberMeRef.current.checked;
+    if (!rememberMe) {
+      window.localStorage.removeItem("username");
+    }
+
     dispatch(
       login({
-        email: usernameRef.current.value,
-        password: passwordRef.current.value,
+        email: username,
+        password,
       })
     );
   };
@@ -63,24 +56,34 @@ const SignIn = ({ setIsSignInModal }) => {
             type="text"
             id="username"
             defaultValue={
-              username || localStorageEmail ? username || localStorageEmail : ""
+              usernameFromStore || localStorageUsername
+                ? usernameFromStore || localStorageUsername
+                : ""
             }
-            ref={usernameRef}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" ref={passwordRef} required />
+          <input
+            type="password"
+            id="password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         <div className="input-remember">
-          <input type="checkbox" id="remember-me" ref={rememberMeRef} />
+          <input
+            type="checkbox"
+            id="remember-me"
+            defaultChecked={rememberMe}
+            onClick={() => setRememberMe(!rememberMe)}
+          />
           <label htmlFor="remember-me">Remember me</label>
         </div>
-        {isError ? (
+        {isError && (
           <p className="errorMessage">UserName/Password does not match</p>
-        ) : (
-          ""
         )}
         <button className="sign-in-button" onClick={handleSubmit}>
           Sign In
