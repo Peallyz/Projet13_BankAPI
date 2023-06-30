@@ -4,32 +4,22 @@ import signUp from "../asyncActions/signUp";
 import getProfile from "../asyncActions/getProfile";
 import updateProfile from "../asyncActions/updateProfile";
 
+const initialState = {
+  username: null,
+  firstname: null,
+  lastname: null,
+  token: null,
+  signInStatus: null,
+  signUpStatus: null,
+  getProfileStatus: null,
+  updateProfileStatus: null,
+};
+
 export const userSlice = createSlice({
   name: "user",
-  initialState: {
-    username: null,
-    firstname: null,
-    lastname: null,
-    token: null,
-    signInStatus: null,
-    signUpStatus: null,
-    getProfileStatus: null,
-    updateProfileStatus: null,
-  },
+  initialState,
   reducers: {
-    signOut: (state) => {
-      state.username = null;
-      state.firstname = null;
-      state.lastname = null;
-      state.token = null;
-      state.signInStatus = null;
-      state.signUpStatus = null;
-      state.getProfileStatus = null;
-      state.updateProfileStatus = null;
-    },
-    resetSignUpStatus: (state) => {
-      state.signUpStatus = null;
-    },
+    signOut: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -58,7 +48,7 @@ export const userSlice = createSlice({
       })
       .addCase(getProfile.rejected, (state) => {
         state.username = null;
-        state.getProfile = 500;
+        state.getProfileStatus = 500;
       })
       .addCase(updateProfile.fulfilled, (state, { payload }) => {
         state.firstname = payload?.body?.firstName;
@@ -67,7 +57,7 @@ export const userSlice = createSlice({
       })
       .addCase(updateProfile.rejected, (state) => {
         state.username = null;
-        state.updateProfile = 500;
+        state.updateProfileStatus = 500;
       });
   },
 });
