@@ -3,14 +3,25 @@ import Home from "./Pages/Home";
 import Account from "./Pages/Account";
 import Login from "./Pages/Login";
 import Error from "./Pages/Error";
+import { useSelector } from "react-redux";
 
 const Router = () => {
+  const isLogged = useSelector((state) => Boolean(state.user.token));
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/account" element={<Account />} />
+        <Route
+          path="/login"
+          element={isLogged ? <Navigate to="/account" /> : <Login />}
+        />
+
+        <Route
+          path="/account"
+          element={isLogged ? <Account /> : <Navigate to="/login" />}
+        />
+
         <Route path="/error" element={<Error />} />
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
