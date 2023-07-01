@@ -1,9 +1,9 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: ArgentBank API documentation
-  description: Contains API endpoints for transaction feature 
-  version: '1.1.0'
-  termsOfService: 'http://swagger.io/terms/'
+  description: Contains API endpoints for transaction feature
+  version: "1.1.0"
+  termsOfService: "http://swagger.io/terms/"
 host: localhost:3001
 basePath: /api/v2
 schemes:
@@ -17,7 +17,7 @@ paths:
       tags:
         - User Module
       summary: User Account Details API
-      description: User balance API 
+      description: User balance API
       parameters:
         - in: header
           name: Authorization
@@ -27,13 +27,13 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User balance retrieved successully
           schema:
-            $ref: '#/definitions/AccountGet'
-        '400':
+            $ref: "#/definitions/AccountGet"
+        "400":
           description: Invalid Token
-        '500':
+        "500":
           description: Internal Server Error
   /user/profile/transactions:
     get:
@@ -52,15 +52,15 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User transactions retrieved successully
           schema:
-            $ref: '#/definitions/TransactionsGet'
-        '400':
+            $ref: "#/definitions/TransactionsGet"
+        "400":
           description: Invalid Token
-        '500':
+        "500":
           description: Internal Server Error
-    put:
+    post:
       security:
         - Bearer: []
       tags:
@@ -78,20 +78,19 @@ paths:
           description: Add user transaction attributes
           required: true
           schema:
-            $ref: '#/definitions/TransactionPut'
+            $ref: "#/definitions/TransactionPut"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User transaction post successully
           schema:
-            $ref: '#/definitions/TransactionGet'
-        '400':
+            $ref: "#/definitions/TransactionGet"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
-  
-  
+
   /user/profile/transactions/{transactionId}:
     get:
       security:
@@ -105,7 +104,7 @@ paths:
           name: transactionId
           type: integer
           required: true
-          description:  TransactionID
+          description: TransactionID
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -114,21 +113,21 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User transaction retrieved successully
           schema:
-            $ref: '#/definitions/TransactionGet'
-        '400':
+            $ref: "#/definitions/TransactionGet"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
-    post:
+    put:
       security:
         - Bearer: []
       tags:
         - User Module
       summary: User Update Transaction API
-      description:  Update details' transaction API
+      description: Update details' transaction API
       parameters:
         - in: path
           name: transactionId
@@ -145,17 +144,17 @@ paths:
           description: Update user transaction attributes
           required: true
           schema:
-            $ref: '#/definitions/TransactionUpdate'
+            $ref: "#/definitions/TransactionUpdate"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User transaction updated successully
           schema:
-            $ref: '#/definitions/TransactionGet'
-        '400':
+            $ref: "#/definitions/TransactionGet"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
     delete:
       security:
@@ -180,20 +179,19 @@ paths:
           description: Add user transaction attributes
           required: true
           schema:
-            $ref: '#/definitions/TransactionDelete'
+            $ref: "#/definitions/TransactionDelete"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Transaction details delete successully
           schema:
-            $ref: '#/definitions/TransactionGet'
-        '400':
+            $ref: "#/definitions/TransactionGet"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
-          
-          
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -213,9 +211,9 @@ definitions:
           userID:
             type: string
           balanceAmount:
-              type: number
+            type: number
           overdraftAmount:
-              type: number
+            type: number
   TransactionsGet:
     type: object
     properties:
@@ -280,7 +278,7 @@ definitions:
     type: object
     properties:
       status:
-        type: integer   
+        type: integer
       message:
         type: string
       body:
@@ -302,7 +300,7 @@ definitions:
     type: object
     properties:
       status:
-        type: integer   
+        type: integer
       message:
         type: string
       body:
@@ -318,7 +316,7 @@ definitions:
     type: object
     properties:
       status:
-        type: integer   
+        type: integer
       message:
         type: string
       body:
