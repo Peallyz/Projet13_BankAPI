@@ -12,7 +12,7 @@ const Logout = () => {
 
   return (
     <div>
-      <NavLink className="main-nav-item" to="/account">
+      <NavLink className="main-nav-item" to="/profile">
         <i className="fa fa-user-circle"></i>
         {firstname ? firstname : username}
       </NavLink>

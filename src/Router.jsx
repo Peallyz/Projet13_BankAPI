@@ -14,12 +14,12 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route
           path="/login"
-          element={isLogged ? <Navigate to="/account" /> : <Login />}
+          element={isLogged ? <Navigate to="/profile" /> : <Login />}
         />
 
         <Route
-          path="/account"
-          element={isLogged ? <Account /> : <Navigate to="/login" />}
+          path="/profile"
+          element={isLogged ? <Account /> : <Navigate to="/" />}
         />
 
         <Route path="/error" element={<Error />} />
