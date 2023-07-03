@@ -18,9 +18,11 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
+  // Reducers are functions that take the current state and an action object, and then return a new state.
   reducers: {
     signOut: () => initialState,
   },
+  // Extra Reducers are used here to update the state according external async evenements.
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
