@@ -1,15 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../Components/Header";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
 import getProfile from "../utils/asyncActions/getProfile";
 import Footer from "../Components/Footer";
 import { useState } from "react";
 import EditForm from "../Components/EditForm";
 
 const Account = () => {
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const userToken = useSelector((state) => state.user.token);
@@ -20,9 +18,6 @@ const Account = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
-    if (!userToken) {
-      navigate("/login");
-    }
     if (firstname === null || lastname === null) {
       dispatch(getProfile(userToken));
     }
