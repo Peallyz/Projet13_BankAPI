@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import updateProfile from "../utils/asyncActions/updateProfile";
-import { useRef } from "react";
+import { useState } from "react";
 
 const EditForm = ({ setIsFormOpen }) => {
   const dispatch = useDispatch();
 
-  const newFirstName = useRef(null);
-  const newLastName = useRef(null);
+  const [newFirstName, setNewFirstName] = useState(null);
+  const [newLastName, setNewLastName] = useState(null);
 
   const userToken = useSelector((state) => state.user.token);
   const firstname = useSelector((state) => state.user.firstname);
@@ -18,8 +18,8 @@ const EditForm = ({ setIsFormOpen }) => {
     dispatch(
       updateProfile({
         token: userToken,
-        firstname: newFirstName.current.value,
-        lastname: newLastName.current.value,
+        firstname: newFirstName,
+        lastname: newLastName,
       })
     );
     setIsFormOpen(false);
@@ -33,7 +33,7 @@ const EditForm = ({ setIsFormOpen }) => {
         id="firstname"
         name="firstname"
         placeholder={firstname ? firstname : "First Name"}
-        ref={newFirstName}
+        onChange={(e) => setNewFirstName(e.target.value)}
         required
       />
       <label htmlFor="lastname">Last Name</label>
@@ -42,7 +42,7 @@ const EditForm = ({ setIsFormOpen }) => {
         id="lastname"
         name="lastname"
         placeholder={lastname ? lastname : "Last Name"}
-        ref={newLastName}
+        onChange={(e) => setNewLastName(e.target.value)}
         required
       />
       <button type="submit" onClick={handleSubmit}>
